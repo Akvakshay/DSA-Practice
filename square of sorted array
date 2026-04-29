@@ -1,0 +1,64 @@
+squares of sorted array in c++ correct my code class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& nums) {
+        int length = nums.size();
+        vector<int> posi;
+        vector<int> neg;
+        for (int i = 0; i < length; i++) {
+            if (nums[i] < 0) {
+                neg.push_back(nums[i]);
+            } else {
+                posi.push_back(nums[i]);
+            }
+        }
+        if (neg.size() == 0) {
+            for (int i = 0; i < posi.size(); i++) {
+                posi[i] = posi[i] * posi[i];
+                return posi;
+            }
+        }
+        if (posi.size() == 0) {
+            for (int i = 0; i < neg.size(); i++) {
+                neg[i] = neg[i] * neg[i];
+                reverse(neg.begin(), neg.end());
+                return neg;
+            }
+        }
+        int i = 0, j = 0;
+        int id = 0;
+        int n = neg.size();
+        int m = posi.size();
+        vector<int> res(n + m);
+        for (int i = 0; i < n; i++) {
+            neg[i] = neg[i] * neg[i];
+           
+        }
+         reverse(neg.begin(), neg.end());
+        for (int i = 0; i < m; i++) {
+            posi[i] = posi[i] * posi[i];
+        }
+        while (i < n and j < m) {
+            if (neg[i] <= posi[j]) {
+                res[id] = neg[i];
+                id++;
+                i++;
+            } else {
+                res[id] = posi[j];
+                id++;
+                j++;
+            }
+        }
+        while (i < n) {
+            res[id] = neg[i];
+            id++;
+            i++;
+        }
+        while (j < m) {
+            res[id] = posi[j];
+            id++;
+            j++;
+        }
+
+        return res;
+    }
+};
