@@ -1,0 +1,28 @@
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int low = 0;           // Boundary for 0s
+        int mid = 0;           // Current element scanner
+        int high = nums.size() - 1; // Boundary for 2s
+
+        while (mid <= high) {
+            if (nums[mid] == 0) {
+                // Swap current element with the 'low' pointer to move 0 to the front
+                swap(nums[low], nums[mid]);
+                low++;
+                mid++;
+            } 
+            else if (nums[mid] == 1) {
+                // 1 is already in the "middle" section, just move forward
+                mid++;
+            } 
+            else { // nums[mid] == 2
+                // Swap current element with the 'high' pointer to move 2 to the back
+                swap(nums[mid], nums[high]);
+                // Note: We don't increment mid here because the swapped element 
+                // from 'high' hasn't been checked yet.
+                high--;
+            }
+        }
+    }
+};
