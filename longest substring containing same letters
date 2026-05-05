@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int find(vector<int> &a){
+        int maxchar=-1;
+        for(int i=0;i<256;i++){
+            maxchar=max(maxchar,a[i]);
+        }
+        return maxchar;
+    }
+    int characterReplacement(string s, int k) {
+        int low=0;
+        int n =s.size();
+        vector<int> f(256,0);
+        int res =0;
+        for(int high=0;high<n;high++){
+            f[s[high]]++;
+            int maxcount=find(f);
+            int diff=high-low+1-maxcount;
+            while(diff>k){
+                f[s[low]]--;
+                low++;
+                maxcount=find(f);
+                diff=high-low+1-maxcount;
+            }
+            res=max(res,high-low+1);
+        }
+        return res;
+    }
+};
