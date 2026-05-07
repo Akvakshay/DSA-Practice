@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int maxScore(vector<int>& cardPoints, int k) {
+        int n = cardPoints.size();
+        int totalSum = 0;
+        
+        // 1. Calculate total sum of all cards
+        for (int x : cardPoints) totalSum += x;
+        
+        // If we take all cards, return total sum
+        if (k == n) return totalSum;
+        
+        // 2. Sliding window to find the minimum sum of a subarray of size (n - k)
+        int windowSize = n - k;
+        int currentWindowSum = 0;
+        
+        // Initialize the first window
+        for (int i = 0; i < windowSize; i++) {
+            currentWindowSum += cardPoints[i];
+        }
+        
+        int minSubarraySum = currentWindowSum;
+        
+        // Slide the window across the array
+        for (int i = windowSize; i < n; i++) {
+            currentWindowSum += cardPoints[i] - cardPoints[i - windowSize];
+            minSubarraySum = min(minSubarraySum, currentWindowSum);
+        }
+        
+        // 3. The maximum score is total minus the smallest middle section
+        return totalSum - minSubarraySum;
+    }
+};
