@@ -1,0 +1,68 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <climits>
+
+using namespace std;
+
+class Solution {
+public:
+    // Helper function remains exactly the same
+    bool fre(vector<int>& have, vector<int>& need) {
+        for (int i = 0; i < 256; i++) {
+            if (have[i] < need[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    string minWindow(string s, string t) {
+        int m = s.size(); // Length of haystack
+        int n = t.size(); // Length of needle
+
+        // If s is shorter than t, it's impossible to find the window
+        if (m < n) {
+            return "";
+        }
+
+        vector<int> have(256, 0);
+        vector<int> need(256, 0);
+        
+        // Populate the need array using the length of t (n)
+        for (int i = 0; i < n; i++) {
+            need[t[i]]++;
+        }
+
+        int low = 0;
+        int res = INT_MAX; // Initialize to maximum possible value
+        int start = -1;
+
+        // Iterate through string s using its length (m)
+        for (int high = 0; high < m; high++) {
+            have[s[high]]++;
+            
+            // While the current window has all required characters
+            while (fre(have, need)) {
+                int len = high - low + 1;
+                
+                // Update minimum length and starting index
+                if (res > len) {
+                    res = len;
+                    start = low;
+                }
+                
+                // Shrink the window from the left
+                have[s[low]]--;
+                low++;
+            }
+        }
+
+        // If res was never updated, no valid window was found
+        if (res == INT_MAX) {
+            return "";
+        }
+        
+        return s.substr(start, res);
+    }
+};
