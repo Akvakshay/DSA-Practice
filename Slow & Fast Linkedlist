@@ -1,0 +1,19 @@
+public:
+#define ed end1
+#define Node ListNode
+#define null NULL
+  bool hasCycle(ListNode *head){
+    if(head==null)
+      return false;
+    if(head->next==null)
+      return false;
+    Node* slow=head;
+    Node* fast=head;
+    while(fast!=null and fast->next!=null){
+      slow=slow->next;
+      fast=fast->next->next;
+      if(slow==fast)
+        return true;
+    }
+    retrun false;
+}
