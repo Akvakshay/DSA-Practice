@@ -1,0 +1,19 @@
+int meet(vector<int>start,vector<int>stop){
+  int n = start.size();
+  int m = stop.size();
+  sort(start.begin(),start.end());
+  sort(end.begin(),end.end());
+  int room=0,res=0,i=0,j=0;
+while( i < n && j<m){
+  if(start[i]<stop[j]){
+    room++;
+    res=max(res,room);
+    i++;
+}
+else{
+    room--;
+    j++;
+}
+}
+return res;
+}
